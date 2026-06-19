@@ -1,0 +1,30 @@
+{
+  "name": "palmier-pro-windows-js",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Windows-oriented JavaScript prototype of Palmier Pro.",
+  "main": "out/main/main.js",
+  "type": "module",
+  "scripts": {
+    "dev": "electron-vite dev",
+    "build": "tsc --noEmit && electron-vite build",
+    "preview": "electron-vite preview"
+  },
+  "dependencies": {
+    "@vitejs/plugin-react": "^5.1.2",
+    "electron-vite": "^5.0.0",
+    "react": "^19.1.0",
+    "react-dom": "^19.1.0"
+  },
+  "devDependencies": {
+    "@types/node": "^24.0.0",
+    "@types/react": "^19.1.0",
+    "@types/react-dom": "^19.1.0",
+    "electron": "^42.4.1",
+    "typescript": "^5.8.0",
+    "vite": "^7.3.5"
+  },
+  "overrides": {
+    "esbuild": "^0.28.0"
+  }
+}
