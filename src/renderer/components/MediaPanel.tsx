@@ -27,7 +27,7 @@ export function MediaPanel({ assets, selectedAssetId, onSelectAsset, onImportMed
             draggable
             onClick={() => onSelectAsset(asset.id)}
             onDragStart={(event) => {
-              event.dataTransfer.setData("application/x-palmier-asset", asset.id);
+              event.dataTransfer.setData("application/x-spikx-asset", asset.id);
               event.dataTransfer.effectAllowed = "copy";
             }}
           >

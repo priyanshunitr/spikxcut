@@ -8,7 +8,7 @@ import {
   findClip,
   updateClip
 } from "../shared/editing";
-import type { Clip, EditorSelection, EditorState, MediaAsset, PalmierProject, TrackId } from "../shared/types";
+import type { Clip, EditorSelection, EditorState, MediaAsset, SpikxProject, TrackId } from "../shared/types";
 import { InspectorPanel } from "./components/InspectorPanel";
 import { MediaPanel } from "./components/MediaPanel";
 import { PreviewPanel } from "./components/PreviewPanel";
@@ -17,7 +17,7 @@ import { Toolbar } from "./components/Toolbar";
 
 type Action =
   | { type: "set-status"; status: string }
-  | { type: "set-project"; project: PalmierProject; projectPath?: string; status: string }
+  | { type: "set-project"; project: SpikxProject; projectPath?: string; status: string }
   | { type: "set-project-path"; projectPath: string; status: string }
   | { type: "add-media"; assets: MediaAsset[] }
   | { type: "select"; selection: EditorSelection }
@@ -122,13 +122,13 @@ export function App() {
 
   async function importMedia(): Promise<void> {
     dispatch({ type: "set-status", status: "Importing media..." });
-    const assets = await window.palmier.importMedia(state.project.timeline.settings.fps);
+    const assets = await window.spikx.importMedia(state.project.timeline.settings.fps);
     dispatch({ type: "add-media", assets });
   }
 
   async function saveProject(): Promise<void> {
     dispatch({ type: "set-status", status: "Saving project..." });
-    const result = await window.palmier.saveProject(state.project, state.projectPath);
+    const result = await window.spikx.saveProject(state.project, state.projectPath);
 
     if (result.ok && result.projectPath) {
       dispatch({ type: "set-project-path", projectPath: result.projectPath, status: "Project saved." });
@@ -139,7 +139,7 @@ export function App() {
 
   async function loadProject(): Promise<void> {
     dispatch({ type: "set-status", status: "Opening project..." });
-    const result = await window.palmier.loadProject();
+    const result = await window.spikx.loadProject();
 
     if (result.ok && result.project) {
       dispatch({
@@ -154,13 +154,13 @@ export function App() {
   }
 
   async function newProject(): Promise<void> {
-    const project = await window.palmier.newProject();
+    const project = await window.spikx.newProject();
     dispatch({ type: "set-project", project, status: "New project." });
   }
 
   async function exportTimeline(): Promise<void> {
     dispatch({ type: "set-status", status: "Exporting..." });
-    const result = await window.palmier.exportTimeline(state.project);
+    const result = await window.spikx.exportTimeline(state.project);
     dispatch({ type: "set-status", status: result.message });
   }
 

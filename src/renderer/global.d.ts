@@ -1,8 +1,8 @@
-import type { PalmierApi } from "../preload/preload";
+import type { SpikxApi } from "../preload/preload";
 
 declare global {
   interface Window {
-    palmier: PalmierApi;
+    spikx: SpikxApi;
   }
 }
 

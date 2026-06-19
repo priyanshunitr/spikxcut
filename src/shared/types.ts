@@ -54,8 +54,8 @@ export interface Timeline {
   tracks: Track[];
 }
 
-export interface PalmierProject {
-  app: "palmier-js";
+export interface SpikxProject {
+  app: "spikx-js";
   version: 1;
   name: string;
   createdAt: string;
@@ -71,7 +71,7 @@ export interface EditorSelection {
 }
 
 export interface EditorState {
-  project: PalmierProject;
+  project: SpikxProject;
   projectPath?: string;
   selection: EditorSelection;
   playheadFrame: number;
@@ -86,7 +86,7 @@ export interface SaveProjectResult {
 
 export interface LoadProjectResult {
   ok: boolean;
-  project?: PalmierProject;
+  project?: SpikxProject;
   projectPath?: string;
   error?: string;
 }

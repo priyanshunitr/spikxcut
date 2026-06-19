@@ -1,7 +1,7 @@
-import type { PalmierProject } from "../../shared/types";
+import type { SpikxProject } from "../../shared/types";
 
 interface ToolbarProps {
-  project: PalmierProject;
+  project: SpikxProject;
   projectPath?: string;
   status: string;
   onNewProject: () => void;

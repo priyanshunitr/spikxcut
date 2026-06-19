@@ -1,9 +1,9 @@
 import { useEffect, useRef } from "react";
 import { findAsset, getTimelineDurationFrames } from "../../shared/editing";
-import type { Clip, EditorSelection, PalmierProject, Track, TrackId } from "../../shared/types";
+import type { Clip, EditorSelection, SpikxProject, Track, TrackId } from "../../shared/types";
 
 interface TimelineCanvasProps {
-  project: PalmierProject;
+  project: SpikxProject;
   selection: EditorSelection;
   playheadFrame: number;
   onSelectClip: (clip: Clip) => void;
@@ -45,7 +45,7 @@ export function TimelineCanvas({
 
   function handleDrop(event: React.DragEvent<HTMLCanvasElement>): void {
     event.preventDefault();
-    const assetId = event.dataTransfer.getData("application/x-palmier-asset");
+    const assetId = event.dataTransfer.getData("application/x-spikx-asset");
 
     if (!assetId) {
       return;
@@ -100,7 +100,7 @@ export function TimelineCanvas({
   );
 }
 
-function drawTimeline(canvas: HTMLCanvasElement, project: PalmierProject, selection: EditorSelection, playheadFrame: number): void {
+function drawTimeline(canvas: HTMLCanvasElement, project: SpikxProject, selection: EditorSelection, playheadFrame: number): void {
   const dpr = window.devicePixelRatio || 1;
   const rect = canvas.getBoundingClientRect();
   const width = Math.max(1, rect.width);
@@ -157,7 +157,7 @@ function drawRuler(context: CanvasRenderingContext2D, metrics: TimelineMetrics, 
 
 function drawTracks(
   context: CanvasRenderingContext2D,
-  project: PalmierProject,
+  project: SpikxProject,
   selection: EditorSelection,
   metrics: TimelineMetrics,
   width: number
@@ -184,7 +184,7 @@ function drawTracks(
 
 function drawClips(
   context: CanvasRenderingContext2D,
-  project: PalmierProject,
+  project: SpikxProject,
   track: Track,
   selection: EditorSelection,
   metrics: TimelineMetrics,
@@ -226,7 +226,7 @@ function drawPlayhead(context: CanvasRenderingContext2D, frame: number, metrics:
   context.stroke();
 }
 
-function hitTestClip(project: PalmierProject, canvasWidth: number, x: number, y: number): Clip | undefined {
+function hitTestClip(project: SpikxProject, canvasWidth: number, x: number, y: number): Clip | undefined {
   const metrics = getMetrics(canvasWidth, project);
 
   for (let index = 0; index < project.timeline.tracks.length; index += 1) {
@@ -250,7 +250,7 @@ function hitTestClip(project: PalmierProject, canvasWidth: number, x: number, y:
   return undefined;
 }
 
-function getMetrics(width: number, project: PalmierProject): TimelineMetrics {
+function getMetrics(width: number, project: SpikxProject): TimelineMetrics {
   const headerWidth = 84;
   const rulerHeight = 34;
   const rowHeight = 66;

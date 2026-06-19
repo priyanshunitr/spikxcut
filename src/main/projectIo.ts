@@ -1,12 +1,12 @@
 import { readFile, writeFile } from "node:fs/promises";
-import type { PalmierProject } from "../shared/types";
+import type { SpikxProject } from "../shared/types";
 import { hydrateMediaAsset, stripRuntimeMediaFields } from "./ffmpeg";
 
-export async function readProjectFile(filePath: string): Promise<PalmierProject> {
+export async function readProjectFile(filePath: string): Promise<SpikxProject> {
   const raw = await readFile(filePath, "utf8");
-  const project = JSON.parse(raw) as PalmierProject;
+  const project = JSON.parse(raw) as SpikxProject;
 
-  if (project.app !== "palmier-js" || project.version !== 1) {
+  if (project.app !== "spikx-js" || project.version !== 1) {
     throw new Error("Unsupported project file.");
   }
 
@@ -16,8 +16,8 @@ export async function readProjectFile(filePath: string): Promise<PalmierProject>
   };
 }
 
-export async function writeProjectFile(filePath: string, project: PalmierProject): Promise<void> {
-  const data: PalmierProject = {
+export async function writeProjectFile(filePath: string, project: SpikxProject): Promise<void> {
+  const data: SpikxProject = {
     ...project,
     mediaAssets: project.mediaAssets.map(stripRuntimeMediaFields)
   };

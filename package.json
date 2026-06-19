@@ -1,8 +1,8 @@
 {
-  "name": "palmier-pro-windows-js",
+  "name": "spikx-pro-windows-js",
   "version": "0.1.0",
   "private": true,
-  "description": "Windows-oriented JavaScript prototype of Palmier Pro.",
+  "description": "Windows-oriented JavaScript prototype of Spikx Pro.",
   "main": "out/main/main.js",
   "type": "module",
   "scripts": {

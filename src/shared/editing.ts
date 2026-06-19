@@ -4,7 +4,7 @@ import type {
   EditorSelection,
   MediaAsset,
   MediaAssetId,
-  PalmierProject,
+  SpikxProject,
   Timeline,
   TimelineSettings,
   Track,
@@ -26,11 +26,11 @@ export function createId(prefix: string): string {
   return `${prefix}_${Date.now().toString(36)}_${Math.random().toString(36).slice(2)}`;
 }
 
-export function createEmptyProject(name = "Untitled"): PalmierProject {
+export function createEmptyProject(name = "Untitled"): SpikxProject {
   const now = new Date().toISOString();
 
   return {
-    app: "palmier-js",
+    app: "spikx-js",
     version: 1,
     name,
     createdAt: now,
@@ -57,14 +57,14 @@ export function createTrack(type: TrackType, name: string): Track {
   };
 }
 
-export function withUpdatedTimestamp(project: PalmierProject): PalmierProject {
+export function withUpdatedTimestamp(project: SpikxProject): SpikxProject {
   return {
     ...project,
     updatedAt: new Date().toISOString()
   };
 }
 
-export function addMediaAssets(project: PalmierProject, assets: MediaAsset[]): PalmierProject {
+export function addMediaAssets(project: SpikxProject, assets: MediaAsset[]): SpikxProject {
   const existingPaths = new Set(project.mediaAssets.map((asset) => asset.path));
   const uniqueAssets = assets.filter((asset) => !existingPaths.has(asset.path));
 
@@ -75,11 +75,11 @@ export function addMediaAssets(project: PalmierProject, assets: MediaAsset[]): P
 }
 
 export function addClipToTimeline(
-  project: PalmierProject,
+  project: SpikxProject,
   assetId: MediaAssetId,
   trackId: TrackId,
   startFrame: number
-): { project: PalmierProject; clip: Clip } {
+): { project: SpikxProject; clip: Clip } {
   const asset = findAsset(project, assetId);
   const track = findTrack(project.timeline, trackId);
 
@@ -123,7 +123,7 @@ export function addClipToTimeline(
   };
 }
 
-export function moveClip(project: PalmierProject, clipId: ClipId, trackId: TrackId, startFrame: number): PalmierProject {
+export function moveClip(project: SpikxProject, clipId: ClipId, trackId: TrackId, startFrame: number): SpikxProject {
   const clip = findClip(project.timeline, clipId);
   const destinationTrack = findTrack(project.timeline, trackId);
 
@@ -164,7 +164,7 @@ export function moveClip(project: PalmierProject, clipId: ClipId, trackId: Track
   });
 }
 
-export function trimClip(project: PalmierProject, clipId: ClipId, startDeltaFrames: number, endDeltaFrames: number): PalmierProject {
+export function trimClip(project: SpikxProject, clipId: ClipId, startDeltaFrames: number, endDeltaFrames: number): SpikxProject {
   const clip = findClip(project.timeline, clipId);
 
   if (!clip) {
@@ -182,7 +182,7 @@ export function trimClip(project: PalmierProject, clipId: ClipId, startDeltaFram
   });
 }
 
-export function splitClip(project: PalmierProject, clipId: ClipId, frame: number): PalmierProject {
+export function splitClip(project: SpikxProject, clipId: ClipId, frame: number): SpikxProject {
   const clip = findClip(project.timeline, clipId);
   const track = clip ? findTrack(project.timeline, clip.trackId) : undefined;
 
@@ -213,14 +213,14 @@ export function splitClip(project: PalmierProject, clipId: ClipId, frame: number
   return replaceTrack(project, track.id, nextTrack);
 }
 
-export function deleteClip(project: PalmierProject, clipId: ClipId): PalmierProject {
+export function deleteClip(project: SpikxProject, clipId: ClipId): SpikxProject {
   return withUpdatedTimestamp({
     ...project,
     timeline: removeClipFromTimeline(project.timeline, clipId)
   });
 }
 
-export function updateClip(project: PalmierProject, clipId: ClipId, changes: Partial<Clip>): PalmierProject {
+export function updateClip(project: SpikxProject, clipId: ClipId, changes: Partial<Clip>): SpikxProject {
   return withUpdatedTimestamp({
     ...project,
     timeline: {
@@ -252,7 +252,7 @@ export function setSelection(selection: EditorSelection, changes: EditorSelectio
   };
 }
 
-export function findAsset(project: PalmierProject, assetId: MediaAssetId): MediaAsset | undefined {
+export function findAsset(project: SpikxProject, assetId: MediaAssetId): MediaAsset | undefined {
   return project.mediaAssets.find((asset) => asset.id === assetId);
 }
 
@@ -291,7 +291,7 @@ export function getTimelineDurationFrames(timeline: Timeline): number {
   );
 }
 
-function replaceTrack(project: PalmierProject, trackId: TrackId, nextTrack: Track): PalmierProject {
+function replaceTrack(project: SpikxProject, trackId: TrackId, nextTrack: Track): SpikxProject {
   return withUpdatedTimestamp({
     ...project,
     timeline: {

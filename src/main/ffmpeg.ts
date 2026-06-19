@@ -2,7 +2,7 @@ import { spawn } from "node:child_process";
 import { basename, extname } from "node:path";
 import { pathToFileURL } from "node:url";
 import { createId, framesFromSeconds, secondsFromFrames } from "../shared/editing";
-import type { Clip, ExportResult, MediaAsset, MediaType, PalmierProject, ToolStatus } from "../shared/types";
+import type { Clip, ExportResult, MediaAsset, MediaType, SpikxProject, ToolStatus } from "../shared/types";
 
 interface FfprobeStream {
   codec_type?: string;
@@ -58,7 +58,7 @@ export function stripRuntimeMediaFields(asset: MediaAsset): MediaAsset {
   return rest;
 }
 
-export async function exportTimeline(project: PalmierProject, outputPath: string): Promise<ExportResult> {
+export async function exportTimeline(project: SpikxProject, outputPath: string): Promise<ExportResult> {
   const clip = findSingleRenderableClip(project);
 
   if (!clip) {
@@ -163,7 +163,7 @@ async function probeMedia(filePath: string): Promise<{
   }
 }
 
-function buildSingleClipExportArgs(project: PalmierProject, asset: MediaAsset, clip: Clip, outputPath: string): string[] {
+function buildSingleClipExportArgs(project: SpikxProject, asset: MediaAsset, clip: Clip, outputPath: string): string[] {
   const { fps, width, height } = project.timeline.settings;
   const durationSeconds = secondsFromFrames(clip.durationFrames, fps);
   const trimStartSeconds = secondsFromFrames(clip.trimStartFrame, fps);
@@ -213,7 +213,7 @@ function buildSingleClipExportArgs(project: PalmierProject, asset: MediaAsset, c
   ];
 }
 
-function findSingleRenderableClip(project: PalmierProject): Clip | undefined {
+function findSingleRenderableClip(project: SpikxProject): Clip | undefined {
   const videoTracks = project.timeline.tracks.filter((track) => track.type === "video");
   const clips = videoTracks.flatMap((track) => track.clips).filter((clip) => clip.type !== "audio");
 

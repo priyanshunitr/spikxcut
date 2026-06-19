@@ -2,7 +2,7 @@ import { app, BrowserWindow, dialog, ipcMain, shell } from "electron";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 import { createEmptyProject } from "../shared/editing";
-import type { ExportResult, LoadProjectResult, PalmierProject, SaveProjectResult } from "../shared/types";
+import type { ExportResult, LoadProjectResult, SpikxProject, SaveProjectResult } from "../shared/types";
 import { createMediaAsset, exportTimeline, getToolStatus } from "./ffmpeg";
 import { readProjectFile, writeProjectFile } from "./projectIo";
 
@@ -16,7 +16,7 @@ function createWindow(): void {
     minWidth: 1100,
     minHeight: 720,
     backgroundColor: "#101214",
-    title: "Palmier JS",
+    title: "Spikx JS",
     webPreferences: {
       preload: join(currentDir, "../preload/preload.mjs"),
       contextIsolation: true,
@@ -77,15 +77,15 @@ function registerIpc(): void {
     return Promise.all(result.filePaths.map((filePath) => createMediaAsset(filePath, fps)));
   });
 
-  ipcMain.handle("project:save", async (_event, project: PalmierProject, projectPath?: string): Promise<SaveProjectResult> => {
+  ipcMain.handle("project:save", async (_event, project: SpikxProject, projectPath?: string): Promise<SaveProjectResult> => {
     try {
       let targetPath = projectPath;
 
       if (!targetPath) {
         const result = await dialog.showSaveDialog(mainWindow!, {
           title: "Save Project",
-          defaultPath: `${project.name || "Untitled"}.palmier-js.json`,
-          filters: [{ name: "Palmier JS Project", extensions: ["palmier-js.json"] }]
+          defaultPath: `${project.name || "Untitled"}.spikx-js.json`,
+          filters: [{ name: "Spikx JS Project", extensions: ["spikx-js.json"] }]
         });
 
         if (result.canceled || !result.filePath) {
@@ -107,7 +107,7 @@ function registerIpc(): void {
       const result = await dialog.showOpenDialog(mainWindow!, {
         title: "Open Project",
         properties: ["openFile"],
-        filters: [{ name: "Palmier JS Project", extensions: ["palmier-js.json", "json"] }]
+        filters: [{ name: "Spikx JS Project", extensions: ["spikx-js.json", "json"] }]
       });
 
       if (result.canceled || result.filePaths.length === 0) {
@@ -123,7 +123,7 @@ function registerIpc(): void {
     }
   });
 
-  ipcMain.handle("timeline:export", async (_event, project: PalmierProject): Promise<ExportResult> => {
+  ipcMain.handle("timeline:export", async (_event, project: SpikxProject): Promise<ExportResult> => {
     const result = await dialog.showSaveDialog(mainWindow!, {
       title: "Export Video",
       defaultPath: `${project.name || "Untitled"}.mp4`,

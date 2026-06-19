@@ -1,6 +1,6 @@
-# Palmier JS
+# Spikx JS
 
-Windows-oriented Electron prototype for a JavaScript version of Palmier Pro.
+Windows-oriented Electron prototype for a JavaScript version of Spikx Pro.
 
 ## Run
 
